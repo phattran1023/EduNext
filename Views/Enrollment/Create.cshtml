@@ -1,0 +1,28 @@
+﻿@model Enrollment
+@{
+    ViewData["Title"] = "Create Enrollment";
+}
+
+<h2>Create Enrollment</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3 mt-3">
+        <label class="form-label">Student:</label>
+        <select class="form-control" asp-for="StudentId" asp-items="@(new SelectList(ViewBag.Students, "StudentId", "Name"))">
+            <option value="">Select Student</option>
+        </select>
+        <span asp-validation-for="StudentId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label class="form-label">Course:</label>
+        <select class="form-control" asp-for="CourseId" asp-items="@(new SelectList(ViewBag.Courses, "CourseId", "Title"))">
+            <option value="">Select Course</option>
+        </select>
+        <span asp-validation-for="CourseId" class="text-danger"></span>
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

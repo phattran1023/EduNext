@@ -1,0 +1,27 @@
+﻿@model List<Department>
+@{
+    ViewData["Title"] = "Department List";
+}
+
+<h2>Department List</h2>
+<a asp-action="Create" class="btn btn-primary">Create</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <!-- Other columns as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.DepartmentId</td>
+                <td>@department.Name</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
