@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EduNext.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduNext;
 

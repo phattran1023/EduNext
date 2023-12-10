@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EduNext.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduNext;
@@ -15,7 +16,7 @@ public class Student
     public int DepartmentId { get; set; }
 
     [ForeignKey("DepartmentId")]
-    public Department Department { get; set; }
+    public Department? Department { get; set; }
     public ICollection<Enrollment>? Enrollments { get; set; }
 
 }

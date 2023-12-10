@@ -16,7 +16,7 @@ namespace EduNext.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var student = await _databaseContext.Students.ToListAsync();
+            var student = await _databaseContext.Students.Include(s => s.Department).Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
             return View(student);
         }
 
@@ -40,6 +40,7 @@ namespace EduNext.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateStudentViewModel viewModel)
         {
+
             if (ModelState.IsValid)
             {
                 // If the model state is valid, add the student to the database

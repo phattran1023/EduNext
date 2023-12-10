@@ -17,10 +17,10 @@ public class Enrollment
     public int CourseId { get; set; }
 
     [ForeignKey("StudentId")]
-    public Student Student { get; set; }
+    public Student? Student { get; set; }
 
     [ForeignKey("CourseId")]
-    public Course Course { get; set; }
+    public Course? Course { get; set; }
 }
 
 

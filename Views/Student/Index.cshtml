@@ -24,13 +24,19 @@
                 <td>@item.StudentId</td>
                 <td>@item.Name</td>
                 <td>@item.Department?.Name</td>
-<td>
-                    <ul>
-                        @foreach (var enrollment in item.Enrollments)
-                        {
-                            <li>@enrollment.Course?.Title</li>
-                        }
-                    </ul>
+                <td>
+                    @if (item.Enrollments != null)
+                    {
+                        <ul>
+                            @foreach (var enr in item.Enrollments)
+                            {
+                                <li>
+                                    @enr.Course?.Title
+                                </li>
+                            }
+                        </ul>
+                    }
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.StudentId" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.StudentId" class="btn btn-danger">Delete</a>

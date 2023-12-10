@@ -22,14 +22,14 @@
             <tr>
                 <td>@course.CourseId</td>
                 <td>@course.Title</td>
-                <td>
+                @* <td>
                     <ul>
                         @foreach (var enrollment in course.Enrollments)
                         {
                             <li>@enrollment.Student?.Name</li>
                         }
                     </ul>
-                </td>
+                </td> *@
                 <td>
                     <a asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@course.CourseId" class="btn btn-danger">Delete</a>
