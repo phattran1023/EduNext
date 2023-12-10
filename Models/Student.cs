@@ -18,5 +18,7 @@ public class Student
     [ForeignKey("DepartmentId")]
     public Department? Department { get; set; }
     public ICollection<Enrollment>? Enrollments { get; set; }
-
+    public List<ImageUrls>? ImageUrls { get; set; }
+    [NotMapped]
+    public IFormFile? ImgFile { get; set; }
 }

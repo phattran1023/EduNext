@@ -1,0 +1,31 @@
+﻿@model Student
+<h2>Student Edit Images</h2>
+<form enctype="multipart/form-data" asp-action="EditUploadImg" method="post">
+    <div class="mb-3 mt-3">
+        <label class="form-label">StudentId:</label>
+        <input type="hidden" name="StudentId" value="@Model.StudentId">
+        <input type="text" class="form-control" placeholder="Enter name" asp-for="StudentId" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label class="form-label">Name:</label>
+        <input type="text" class="form-control" placeholder="Enter name" value="@Model.Name" disabled>
+    </div>
+    <div class="mb-3 mt-3 row">
+        <div class="col-4">
+            <label for="Image" class="form-label">Image:</label>
+            <input type="file" class="form-control" asp-for="ImgFile" multiple>
+            <span asp-validation-for="ImgFile" class="alert-danger"></span>
+        </div>
+        <div class="col-8">
+            @if (Model.ImageUrls != null)
+            {
+                @foreach (var image in Model.ImageUrls)
+                {
+                    <img class="img-thumbnail" src="~/@image.ImgUrl" alt="@Model.Name" style="width: 100px; height: 100px;" />
+                }
+            }
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

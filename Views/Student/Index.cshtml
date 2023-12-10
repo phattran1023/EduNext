@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Department</th>
             <th>Enrollments</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -38,6 +39,20 @@
                     }
                 </td>
                 <td>
+                    @if (item.ImageUrls.Count>0)
+                    {
+                        @foreach (var imageUrl in item.ImageUrls.Take(3))
+                        {
+                            <img class="img-thumbnail" src="@imageUrl.ImgUrl" alt="@item.Name" style="width: 100px; height: 100px;" onclick="displayImage('@imageUrl.ImgUrl')" />
+                        }
+                        <a asp-action="EditUploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Edit</a>
+                    }
+                    else
+                    {
+                        <a asp-action="UploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Upload Imgs</a>
+                    }
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.StudentId" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.StudentId" class="btn btn-danger">Delete</a>
                 </td>
@@ -45,3 +60,21 @@
         }
     </tbody>
 </table>
+
+<div id="imageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImage" src="" class="img-responsive" width="465px">
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function displayImage(imageUrl) {
+            $("#modalImage").attr("src", imageUrl);
+            $("#imageModal").modal("show");
+        }
+    </script>
+}

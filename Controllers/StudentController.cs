@@ -1,4 +1,5 @@
-﻿using EduNext.Models;
+﻿using EduNext.Migrations;
+using EduNext.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +9,22 @@ namespace EduNext.Controllers
     public class StudentController : Controller
     {
         private readonly DatabaseContext _databaseContext;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public StudentController(DatabaseContext databaseContext)
+        public StudentController(DatabaseContext databaseContext, IWebHostEnvironment hostEnvironment)
         {
             _databaseContext = databaseContext;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index()
         {
-            var student = await _databaseContext.Students.Include(s => s.Department).Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
+            var student = await _databaseContext.Students
+                .Include(s => s.ImageUrls)
+                .Include(s => s.Department)
+                .Include(s => s.Enrollments)
+                .ThenInclude(e => e.Course)
+                .ToListAsync();
             return View(student);
         }
 
@@ -65,7 +73,121 @@ namespace EduNext.Controllers
 
             return View(viewModel);
         }
+        public async Task<IActionResult> UploadImg(int id)
+        {
+            var student = await _databaseContext.Students.FindAsync(id);
+            return View(student);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadImg(Student student, List<IFormFile>? imgFile)
+        {
+            if (imgFile == null || imgFile.Count == 0)
+            {
+                ModelState.AddModelError("ImgFile", "Please choose a file!");
+                return View(student);
+            }
+            foreach (var file in imgFile)
+            {
+                string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+                //upload file vao thu muc wwwroot/images
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                string fullPath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+                var imgUrl = "uploads/" + uniqueFileName;
 
+                var newImgUrl = new ImageUrls
+                {
+                    StudentId = student.StudentId,
+                    ImgUrl = imgUrl
+                };
+                _databaseContext.ImageUrls.Add(newImgUrl);
+            }
 
+            await _databaseContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditUploadImg(int id)
+        {
+            var student = await _databaseContext.Students.Include(s=>s.ImageUrls).FirstOrDefaultAsync(s => s.StudentId == id);
+            return View(student);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUploadImg(Student student, List<IFormFile>? imgFile)
+        {
+            var stId = student.StudentId;
+            var currentImageUrl = await _databaseContext.ImageUrls.Where(s => s.StudentId == stId).ToListAsync();
+
+            List<ImageUrls> listNewImgUrl = new List<ImageUrls>();
+
+            if (imgFile != null)
+            {
+                if (currentImageUrl.Count > 0)
+                {
+                    foreach (var file in currentImageUrl)
+                    {
+                        this.DeleteFile(file.ImgUrl);
+                    }
+                }
+
+                foreach (var file in imgFile)
+                {
+                    string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+                    //upload file vao thu muc wwwroot/images
+                    string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    string fullPath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                    var imgUrl = "uploads/" + uniqueFileName;
+
+                    var newImgUrl = new ImageUrls
+                    {
+                        StudentId = student.StudentId,
+                        ImgUrl = imgUrl
+                    };
+                    listNewImgUrl.Add(newImgUrl);
+
+                    _databaseContext.ImageUrls.Add(newImgUrl);
+                }
+                foreach (var item in currentImageUrl)
+                {
+                    _databaseContext.ImageUrls.Remove(item);
+                }
+                await _databaseContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                foreach (var item in listNewImgUrl)
+                {
+                    this.DeleteFile(item.ImgUrl);
+                }
+                foreach (var item in currentImageUrl)
+                {
+                    _databaseContext.ImageUrls.Remove(item);
+                }
+                await _databaseContext.SaveChangesAsync();
+                return View(student);
+            }            
+        }
+        public async Task<IActionResult> DeleteFile(string fileName)
+        {
+            string filePath = Path.Combine(_hostEnvironment.WebRootPath, fileName);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

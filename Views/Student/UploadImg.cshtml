@@ -1,0 +1,20 @@
+﻿@model Student
+<h2>Student Upload Images</h2>
+<form enctype="multipart/form-data" asp-action="UploadImg" method="post">
+    <div class="mb-3 mt-3">
+        <label class="form-label">StudentId:</label>
+        <input type="hidden" name="StudentId" value="@Model.StudentId">
+        <input type="text" class="form-control" placeholder="Enter name" asp-for="StudentId" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label class="form-label">Name:</label>
+        <input type="text" class="form-control" placeholder="Enter name" asp-for="Name" disabled>
+    </div>
+    <div class="mb-3 mt-3">
+        <label for="Image" class="form-label">Image:</label>
+        <input type="file" class="form-control" asp-for="ImgFile" multiple>
+        <span asp-validation-for="Name" class="alert-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
