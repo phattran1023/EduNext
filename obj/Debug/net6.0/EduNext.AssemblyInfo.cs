@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EduNext")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ca59e426e8ac157034debaa8945bab484e92750")]
 [assembly: System.Reflection.AssemblyProductAttribute("EduNext")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EduNext")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,42 @@
+﻿@model EduNext.Models.CreateStudentViewModel
+
+@{
+    ViewData["Title"] = "Student Edit Form";
+}
+
+<h2>Student Edit</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Student.StudentId" />
+    <div class="mb-3 mt-3">
+        <label class="form-label">Name:</label>
+        <input type="text" class="form-control" placeholder="Enter name" asp-for="Student.Name">
+        <span asp-validation-for="Student.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label class="form-label">Department:</label>
+        <select asp-for="Student.DepartmentId" class="form-control">
+            <option value="">Select Department</option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.DepartmentId">@department.Name</option>
+            }
+        </select>
+        <span asp-validation-for="Student.DepartmentId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@if (TempData["Errors"] != null)
+{
+    <div>
+        <h4>ModelState Errors:</h4>
+        <ul>
+            @foreach (var error in TempData["Errors"] as List<string>)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}

@@ -42,5 +42,67 @@ namespace EduNext.Controllers
 
             return View(enrollment);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int studentId, int courseId)
+        {
+            var enrollment = await _context.Enrollments
+                .FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Students = _context.Students.ToList();
+            ViewBag.Courses = _context.Courses.ToList();
+
+            return View(enrollment);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int studentId, int courseId, [Bind("StudentId", "CourseId")] Enrollment updatedEnrollment)
+        {
+            if (studentId != updatedEnrollment.StudentId || courseId != updatedEnrollment.CourseId)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove("EnrollmentId"); // Exclude EnrollmentId from validation
+
+            if (ModelState.IsValid)
+            {
+                // Retrieve the existing enrollment from the database
+                var existingEnrollment = await _context.Enrollments
+                    .FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+
+                if (existingEnrollment == null)
+                {
+                    return NotFound();
+                }
+
+                // Update the existing enrollment using the updatedEnrollment values
+                existingEnrollment.StudentId = updatedEnrollment.StudentId;
+                existingEnrollment.CourseId = updatedEnrollment.CourseId;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Students = _context.Students.ToList();
+            ViewBag.Courses = _context.Courses.ToList();
+
+            return View(updatedEnrollment);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var enrollment = await _context.Enrollments.FindAsync(id);
+            _context.Enrollments.Remove(enrollment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

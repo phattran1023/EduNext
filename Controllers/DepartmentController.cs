@@ -41,5 +41,34 @@ namespace EduNext.Controllers
             }
             return View(department);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var department = await _databaseContext.Departments.FindAsync(id);
+            return View(department);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                _databaseContext.Departments.Update(department);
+                await _databaseContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(department);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var department = await _databaseContext.Departments.FindAsync(id);
+            _databaseContext.Departments.Remove(department);
+            await _databaseContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 }

@@ -1,0 +1,17 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Edit Course";
+}
+
+<h2>Edit Course</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="CourseId" />
+    <div class="mb-3 mt-3">
+        <label class="form-label">Title:</label>
+        <input type="text" class="form-control" placeholder="Enter title" asp-for="Title">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

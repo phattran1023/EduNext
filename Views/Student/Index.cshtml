@@ -43,7 +43,7 @@
                     {
                         @foreach (var imageUrl in item.ImageUrls.Take(3))
                         {
-                            <img class="img-thumbnail" src="@imageUrl.ImgUrl" alt="@item.Name" style="width: 100px; height: 100px;" onclick="displayImage('@imageUrl.ImgUrl')" />
+                            <img class="img-thumbnail" src="@imageUrl.ImgUrl" alt="@item.Name" style="width: 60px;" onclick="displayImage('@imageUrl.ImgUrl')" />
                         }
                         <a asp-action="EditUploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Edit</a>
                     }

@@ -76,6 +76,28 @@ namespace EduNext.Migrations
                     b.ToTable("Enrollments");
                 });
 
+            modelBuilder.Entity("EduNext.Models.ImageUrls", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ImageUrls");
+                });
+
             modelBuilder.Entity("EduNext.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -117,6 +139,17 @@ namespace EduNext.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("EduNext.Models.ImageUrls", b =>
+                {
+                    b.HasOne("EduNext.Student", "Student")
+                        .WithMany("ImageUrls")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("EduNext.Student", b =>
                 {
                     b.HasOne("EduNext.Department", "Department")
@@ -136,6 +169,8 @@ namespace EduNext.Migrations
             modelBuilder.Entity("EduNext.Student", b =>
                 {
                     b.Navigation("Enrollments");
+
+                    b.Navigation("ImageUrls");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,32 @@
+﻿@model Enrollment
+@{
+    ViewData["Title"] = "Edit Enrollment";
+}
+
+<h2>Edit Enrollment</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="EnrollmentId" />
+    <input type="hidden" asp-for="StudentId" />
+    <input type="hidden" asp-for="CourseId" />
+
+    <div class="mb-3 mt-3">
+        <label class="form-label">Student:</label>
+        <select class="form-control" asp-for="StudentId" asp-items="@(new SelectList(ViewBag.Students, "StudentId", "Name"))">
+            <option value="">Select Student</option>
+        </select>
+        <span asp-validation-for="StudentId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label class="form-label">Course:</label>
+        <select class="form-control" asp-for="CourseId" asp-items="@(new SelectList(ViewBag.Courses, "CourseId", "Title"))">
+            <option value="">Select Course</option>
+        </select>
+        <span asp-validation-for="CourseId" class="text-danger"></span>
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -33,5 +33,44 @@ namespace EduNext.Controllers
             }
             return View(course);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Course course)
+        {
+            if (id != course.CourseId)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                _context.Update(course);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(course);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            _context.Courses.Remove(course);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

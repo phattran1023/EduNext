@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mgFGg77CbPdtcHManAhlKVy2HK63yntWHh3hvKrmBoE=",
+  "Hash": "ZB8QO2ULUtweWu/NCwLxsCd8elh+J4B6/MsuceWeWwI=",
   "Source": "EduNext",
   "BasePath": "_content/EduNext",
   "Mode": "Default",
@@ -1193,6 +1193,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\wwwroot\\uploads\\20231210205722_1.jpg",
+      "SourceId": "EduNext",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\wwwroot\\",
+      "BasePath": "_content/EduNext",
+      "RelativePath": "uploads/20231210205722_1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\20231210205722_1.jpg"
+    },
+    {
+      "Identity": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\wwwroot\\uploads\\20231211145802_Mobile-Wallpapers-4.png",
+      "SourceId": "EduNext",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\wwwroot\\",
+      "BasePath": "_content/EduNext",
+      "RelativePath": "uploads/20231211145802_Mobile-Wallpapers-4.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\20231211145802_Mobile-Wallpapers-4.png"
     }
   ]
 }

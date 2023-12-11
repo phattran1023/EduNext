@@ -1,5 +1,4 @@
-﻿using EduNext.Migrations;
-using EduNext.Models;
+﻿using EduNext.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -188,6 +187,32 @@ namespace EduNext.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit (int id)
+        {
+            var student = await _databaseContext.Students.FindAsync(id);
+            var departments = await _databaseContext.Departments.ToListAsync();
+            var viewModel = new CreateStudentViewModel
+            {
+                Departments = departments,
+                Student = student
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(CreateStudentViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _databaseContext.Students.Update(viewModel.Student);
+                await _databaseContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            var departments = await _databaseContext.Departments.ToListAsync();
+            viewModel.Departments = departments;
+            return View(viewModel);
         }
     }
 }

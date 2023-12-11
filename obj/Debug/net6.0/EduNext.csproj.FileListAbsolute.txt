@@ -66,3 +66,4 @@ D:\Aptech\Sem03\ASP.NET\EduNext\obj\Debug\net6.0\refint\EduNext.dll
 D:\Aptech\Sem03\ASP.NET\EduNext\obj\Debug\net6.0\EduNext.pdb
 D:\Aptech\Sem03\ASP.NET\EduNext\obj\Debug\net6.0\EduNext.genruntimeconfig.cache
 D:\Aptech\Sem03\ASP.NET\EduNext\obj\Debug\net6.0\ref\EduNext.dll
+D:\Aptech\Sem03\ASP.NET\EduNext\obj\Debug\net6.0\EduNext.sourcelink.json

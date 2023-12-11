@@ -1,0 +1,30 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Edit Department";
+}
+
+<h2>Edit Department</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="DepartmentId" />
+    <div class="mb-3 mt-3">
+        <label class="form-label">Department Name:</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter department name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+@if (TempData["Errors"] != null)
+{
+    <div>
+        <h4>ModelState Errors:</h4>
+        <ul>
+            @foreach (var error in TempData["Errors"] as IEnumerable<string>)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
