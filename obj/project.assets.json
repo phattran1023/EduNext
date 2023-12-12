@@ -2014,19 +2014,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ptrnv\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\EduNext.csproj",
+      "projectUniqueName": "D:\\Aptech\\Sem_3\\EDUNEXT\\EduNext.csproj",
       "projectName": "EduNext",
-      "projectPath": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\EduNext.csproj",
-      "packagesPath": "C:\\Users\\ptrnv\\.nuget\\packages\\",
-      "outputPath": "D:\\Aptech\\Sem03\\ASP.NET\\EduNext\\obj\\",
+      "projectPath": "D:\\Aptech\\Sem_3\\EDUNEXT\\EduNext.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\Aptech\\Sem_3\\EDUNEXT\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ptrnv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2090,7 +2090,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

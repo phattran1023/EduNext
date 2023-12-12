@@ -21,4 +21,6 @@ public class Student
     public List<ImageUrls>? ImageUrls { get; set; }
     [NotMapped]
     public IFormFile? ImgFile { get; set; }
+
+	
 }

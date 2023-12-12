@@ -1,6 +1,70 @@
-﻿@model IEnumerable<Student>
+﻿<style>
+	.enrollment-list {
+		padding: 0;
+	}
+
+	.enrollment-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 5px;
+		border: 1px solid black;
+		padding: 5px;
+		border-radius: 5px;
+		position: relative;
+	}
+
+		.enrollment-item .badge {
+			margin-right: 10px;
+		}
+
+		.enrollment-item .btn-delete {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			border: none;
+			background-color: #dc3545;
+			color: #fff;
+			font-size: 10px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+			.enrollment-item .btn-delete:hover {
+				background-color: #c82333;
+			}
+
+	.btn-delete {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: #dc3545;
+		color: #fff;
+		border: none;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 12px;
+	}
+
+		.btn-delete:hover {
+			background-color: #c82333;
+		}
+
+</style>
+@model EduNext.Models.StudentIndexViewModel
 @{
-    ViewData["Title"] = "Student List";
+	ViewData["Title"] = "Student List";
 }
 
 <h2>Student List</h2>
@@ -8,73 +72,180 @@
 <a asp-action="Create" class="btn btn-primary">Create</a>
 
 <table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Enrollments</th>
-            <th>Image</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.StudentId</td>
-                <td>@item.Name</td>
-                <td>@item.Department?.Name</td>
-                <td>
-                    @if (item.Enrollments != null)
-                    {
-                        <ul>
-                            @foreach (var enr in item.Enrollments)
-                            {
-                                <li>
-                                    @enr.Course?.Title
-                                </li>
-                            }
-                        </ul>
-                    }
-                </td>
-                <td>
-                    @if (item.ImageUrls.Count>0)
-                    {
-                        @foreach (var imageUrl in item.ImageUrls.Take(3))
-                        {
-                            <img class="img-thumbnail" src="@imageUrl.ImgUrl" alt="@item.Name" style="width: 60px;" onclick="displayImage('@imageUrl.ImgUrl')" />
-                        }
-                        <a asp-action="EditUploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Edit</a>
-                    }
-                    else
-                    {
-                        <a asp-action="UploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Upload Imgs</a>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.StudentId" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.StudentId" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Department</th>
+			<th>Enrollments</th>
+			<th>Image</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Student)
+		{
+			<tr>
+				<td>@item.StudentId</td>
+				<td><input value="@item.Name" id="Name_@item.StudentId" class="form-control" /><div class="text-danger" id="NameErr_@item.StudentId"></div></td>
+				<td>
+					@if (item.Department.Name == null)
+					{
+						<span class="text-danger">No departments taken</span>
+					}
+					<div style="position: relative; display: inline-block;">
+						<input type="hidden" id="departmentId" value="@item.DepartmentId" />
+						<span id="departmentNameSpan" style="text-decoration-color: black; padding-right: 30px;">@item.Department.Name</span>
+
+						<button class="btn-delete" onclick="deleteDepartment()">X</button>
+					</div>
+					<br />
+					<hr />
+					<div>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							Change to order department
+						</button>
+					</div>
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<select class="form-control" id="departmentSelect" onchange="changeDepartmentButton(this.value)">
+										<option value="">Select Department</option>
+										@foreach (var department in Model.Departments)
+										{
+											<option value="@department.DepartmentId">@department.Name</option>
+										}
+									</select>
+								</div>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="text-danger" id="DepartmentErr_@item.StudentId"></div>
+				</td>
+				<td>
+					@if (item.Enrollments != null)
+					{
+						foreach (var enr in item.Enrollments)
+						{
+							<div class="enrollment-item">
+								<span>@enr.Course?.Title</span>
+								<button asp-action="DeleteEnrollment" asp-route-enrollmentId="@enr.EnrollmentId" class="btn-delete">×</button>
+							</div>
+
+						}
+
+					}
+
+				</td>
+				<td>
+					@if (item.ImageUrls.Count > 0)
+					{
+						@foreach (var imageUrl in item.ImageUrls.Take(3))
+						{
+							<img class="img-thumbnail" src="@imageUrl.ImgUrl" alt="@item.Name" style="width: 60px;" onclick="displayImage('@imageUrl.ImgUrl')" />
+						}
+						<a asp-action="EditUploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Edit</a>
+					}
+					else
+					{
+						<a asp-action="UploadImg" asp-route-id="@item.StudentId" class="btn btn-outline-info">Upload Imgs</a>
+					}
+				</td>
+				<td>
+					<a class="btn btn-warning" onclick="SubmitUpdate(@item.StudentId)">Update</a>
+					<a asp-action="Delete" asp-route-id="@item.StudentId" class="btn btn-danger">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 <div id="imageModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <img id="modalImage" src="" class="img-responsive" width="465px">
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<img id="modalImage" src="" class="img-responsive" width="150">
+			</div>
+		</div>
+	</div>
 </div>
+
 @section Scripts{
-    <script>
-        function displayImage(imageUrl) {
-            $("#modalImage").attr("src", imageUrl);
-            $("#imageModal").modal("show");
-        }
-    </script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		function displayImage(imageUrl) {
+			$("#modalImage").attr("src", imageUrl);
+			$("#imageModal").modal("show");
+		}
+		function SubmitUpdate(studentId) {
+			var NameInput = document.getElementById(`Name_${studentId}`).value;
+			
+			var departmentInput = document.getElementById("departmentId").value;
+			let errorMessages = {};
+			if (NameInput.trim() === '') {
+				errorMessages.Name = 'Name is required.';
+				document.getElementById(`NameErr_${studentId}`).innerHTML = 'Name is required.';
+			} else {
+				document.getElementById(`NameErr_${studentId}`).innerHTML = '';
+			}
+
+			if (!departmentInput) {
+				errorMessages.Department = 'Department is required.';
+				document.getElementById(`DepartmentErr_${studentId}`).innerHTML = 'Department is required.';
+			} else {
+				document.getElementById(`DepartmentErr_${studentId}`).innerHTML = '';
+			}
+
+			if (Object.keys(errorMessages).length > 0) {
+				return;
+			}
+
+			var data = {
+				Id: studentId,
+				Name: NameInput,
+				DepartmentId: departmentInput
+			};
+
+			$.ajax({
+				url: '/Student/EditStudent',
+				method: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(data),
+				success: function (response) {
+					if (response.success) {
+						alert('Student information updated successfully!');
+					} else {
+						alert('Failed to update student information!');
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', status, error);
+					alert('Error updating student information. Please check the console for more details.');
+				}
+			});
+		}
+		function changeDepartmentButton(id) {
+			var departmentInput = document.getElementById("departmentId");
+			departmentInput.value = id;
+			var departmentName = document.getElementById("departmentSelect").options[document.getElementById("departmentSelect").selectedIndex].text;
+			document.getElementById("departmentNameSpan").innerText = departmentName;
+		}
+
+
+
+
+	</script>
 }
