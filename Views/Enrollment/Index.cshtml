@@ -3,6 +3,13 @@
     ViewData["Title"] = "Enrollment List";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <h2>Enrollment List</h2>
 
 <a asp-action="Create" class="btn btn-primary">Create</a>
@@ -26,7 +33,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-studentId="@enrollment.StudentId" asp-route-courseId="@enrollment.CourseId" class="btn btn-info">Edit</a>
 
-                    <a asp-action="Delete" asp-route-id="@enrollment.EnrollmentId" class="btn btn-danger">Delete</a>
+                    <a asp-action="Delete" asp-route-studentId="@enrollment.StudentId" asp-route-courseId="@enrollment.CourseId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
